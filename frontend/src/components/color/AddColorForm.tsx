@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { supabase } from '../../services/supabaseClient'; // Import your Supabase client instance
 import { IColors } from '../../models/IColor';
 
 const AddColorForm = () => {
-  const [formData, setFormData] = useState<IColors>({
-    id: '',
+  const [formData, setFormData] = useState<Omit<IColors, 'id'>>({
     imageUrl: '',
     colorName: '',
     colorMedium: '',
@@ -35,34 +34,45 @@ const AddColorForm = () => {
       // Upload the image to Supabase Storage
       if (file) {
         const { data, error } = await supabase.storage
-          .from('colors')
+          .from('colors-images')
           .upload(`images/${file.name}`, file);
 
-        if (error) throw error;
+        if (error) throw new Error('Failed to upload image.');
+        
         imageUrl = data?.path
-          ? supabase.storage.from('colors').getPublicUrl(data.path).data.publicUrl || ''
+          ? supabase.storage.from('colors-images').getPublicUrl(data.path).data.publicUrl || ''
           : '';
       }
+
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
+
+      if (sessionError || !session) {
+        throw new Error('User not authenticated');
+      }
+
+      const userId = session.user.id; // Get the user ID from the session
 
       // Insert the color data into Supabase
       const { error: insertError } = await supabase.from('colors').insert([
         {
-          colorName: formData.colorName,
+          image_url: imageUrl || null,
+          color_name: formData.colorName,
           medium: formData.colorMedium,
-          manufacturer: formData.manufacturer,
-          colorFamily: formData.colorFamily,
-          tags: formData.tags,
-          quantity: formData.quantity,
-          image_url: imageUrl,
-          user_id: supabase.auth.user()?.id,
+          manufacturer: formData.manufacturer || null,
+          color_family: formData.colorFamily || null,
+          tags: formData.tags || null,
+          quantity: formData.quantity || null,
+          user_id: userId,
         },
       ]);
 
-      if (insertError) throw insertError;
+      if (insertError) throw new Error ('Failed to add color to database.');
 
       alert('Color added successfully!');
       setFormData({
-        id: '',
         imageUrl: '',
         colorName: '',
         colorMedium: '',
@@ -81,26 +91,26 @@ const AddColorForm = () => {
 
     return (
         <form onSubmit={handleSubmit}>
-             <label htmlFor="imageUrl">Upload Image</label>
-            <input type="file" id="imageUrl" value={formData.imageUrl} onChange={handleFileChange} />
+            <label htmlFor="imageUrl">Upload Image of Color</label>
+            <input type="file" id="imageUrl" onChange={handleFileChange} />
 
-            <label htmlFor="colorName">Colour Name</label>
-            <input type="text" id="colorName" value={formData.colorName} onChange={handleChange} required />
+            <label htmlFor="colorName">Colour Name*</label>
+            <input type="text" id="colorName" name="colorName" value={formData.colorName} onChange={handleChange} required />
 
-            <label htmlFor="colorMedium">Medium</label>
-            <input type="text" id="colorMedium" value={formData.colorMedium} onChange={handleChange} required />
+            <label htmlFor="colorMedium">Medium*</label>
+            <input type="text" id="colorMedium" name="colorMedium" value={formData.colorMedium} onChange={handleChange} required />
 
-            <label htmlFor="manufacturer">manufacturer</label>
-            <input type="text" id="manufacturer" value={formData.manufacturer} onChange={handleChange} />
+            <label htmlFor="manufacturer">Manufacturer</label>
+            <input type="text" id="manufacturer" name="manufacturer" value={formData.manufacturer} onChange={handleChange} />
 
             <label htmlFor="colorFamily">Colour Family</label>
-            <input type="text" id="colorFamily" value={formData.colorFamily} onChange={handleChange} />
+            <input type="text" id="colorFamily" name="colorFamily" value={formData.colorFamily} onChange={handleChange} />
 
-            <label htmlFor="tags">Tags (comma-separated)</label>
-            <input type="text" id="tags" value={formData.tags} onChange={handleChange} />
+            <label htmlFor="tags">Tags (ex: cold, opaque)</label>
+            <input type="text" id="tags" name="tags" value={formData.tags} onChange={handleChange} />
 
             <label htmlFor="quantity">Quantity</label>
-            <input type="number" id="quantity" value={formData.quantity} onChange={handleChange} />
+            <input type="number" id="quantity" name="quantity" value={formData.quantity} onChange={handleChange} />
 
             <button type="submit">Add Color</button>
         </form>
