@@ -1,6 +1,6 @@
 export interface IColors{
     id: string;
-    imagePath: string;
+    imageUrl: string;
     colorName: string;
     colorMedium: string;
     manufacturer: string;

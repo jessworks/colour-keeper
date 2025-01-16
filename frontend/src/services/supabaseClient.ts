@@ -7,37 +7,6 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
-/*
-export const registerUser = async (
-  username: string,
-  email: string,
-  password: string
-): Promise<IUser> => {
-  
- // Step 1: Sign up the user with Supabase Authentication
-  const { data, error } = await supabase.auth.signUp({ 
-    email,
-    password,
-  });
-
-  if (error) {
-    throw new Error(error.message); //handle signup error
-  }
-
-
-  // Return the mapped IUser object
-  if (data.user) {
-    return {
-      id: data.user.id,
-      username,
-      email,
-      password, // Avoid storing raw passwords like this in production!
-      };
-    }
-
-  throw new Error('User registration failed.');
-};
-*/
 
 export const registerUser = async (
   username: string,
@@ -75,7 +44,6 @@ export const registerUser = async (
       id: userId,
       username,
       email,
-      password, // Avoid exposing the password in production!
     };
   }
 
