@@ -17,6 +17,7 @@ const ColorList = () => {
     const fetchColors = async () => {
       try {
         const data = await fetchUserColors(user.id);
+        console.log('Fetched colors:', data); // Debugging line to check fetched data
         setColors(data || []);
       } catch (err) {
         if (err instanceof Error) {

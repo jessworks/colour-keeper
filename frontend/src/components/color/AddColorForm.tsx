@@ -60,11 +60,11 @@ const AddColorForm = () => {
       // Insert the color data into Supabase
       const { error: insertError } = await supabase.from('colors').insert([
         {
-          image_url: imageUrl || null,
-          color_name: formData.colorName,
-          medium: formData.colorMedium,
+          imageUrl: imageUrl || null,
+          colorName: formData.colorName,
+          colorMedium: formData.colorMedium,
           manufacturer: formData.manufacturer || null,
-          color_family: formData.colorFamily || null,
+          colorFamily: formData.colorFamily || null,
           tags: formData.tags || null,
           quantity: formData.quantity || null,
           user_id: userId,
