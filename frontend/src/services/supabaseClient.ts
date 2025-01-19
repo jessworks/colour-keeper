@@ -49,3 +49,38 @@ export const registerUser = async (
 
   throw new Error('User registration failed.');
 };
+
+
+export const fetchUserDetails = async (userId: string): Promise<IUser> => {
+  const { data, error } = await supabase
+    .from('users') // Table name as string
+    .select('user_id, username, email') // Columns to fetch
+    .eq('user_id', userId)
+    .single();
+
+  if (error) {
+    throw new Error(`Error fetching user details: ${error.message}`);
+  }
+
+  // Map fields from the database to IUser
+  return {
+    id: data.user_id, // `user_id` from database becomes `id`
+    username: data.username,
+    email: data.email,
+  };
+};
+
+
+export const fetchUserColors = async (userId: string) => {
+  const { data, error } = await supabase
+    .from('colors')
+    .select('*') // Select all fields or specify required ones
+    .eq('user_id', userId); // Match colors to the user's user_id
+
+  if (error) {
+    console.error('Error fetching colors:', error);
+    throw new Error(`Error fetching colors: ${error.message}`);
+  }
+
+  return data;
+};

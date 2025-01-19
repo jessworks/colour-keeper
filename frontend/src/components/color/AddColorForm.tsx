@@ -14,6 +14,8 @@ const AddColorForm = () => {
   });
 
   const [file, setFile] = useState<File | null>(null);
+  const [isFormVisible, setFormVisible] = useState(false);
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -72,6 +74,7 @@ const AddColorForm = () => {
       if (insertError) throw new Error ('Failed to add color to database.');
 
       alert('Color added successfully!');
+
       setFormData({
         imageUrl: '',
         colorName: '',
@@ -81,7 +84,10 @@ const AddColorForm = () => {
         tags: '',
         quantity: 0,
       });
+
       setFile(null);
+      setFormVisible(false);
+
     } catch (error) {
       console.error('Error adding color:', error);
       alert('Failed to add color. Please try again.');
@@ -89,32 +95,40 @@ const AddColorForm = () => {
   };
 
 
-    return (
+  return (
+    <div>
+      <button onClick={() => setFormVisible((prev) => !prev)}>
+        {isFormVisible ? 'Cancel' : 'Add Color'}
+      </button>
+      {isFormVisible && (
+        
         <form onSubmit={handleSubmit}>
-            <label htmlFor="imageUrl">Upload Image of Color</label>
-            <input type="file" id="imageUrl" onChange={handleFileChange} />
+          <label htmlFor="imageUrl">Upload Image of Color</label>
+          <input type="file" id="imageUrl" onChange={handleFileChange} />
 
-            <label htmlFor="colorName">Colour Name*</label>
-            <input type="text" id="colorName" name="colorName" value={formData.colorName} onChange={handleChange} required />
+          <label htmlFor="colorName">Colour Name*</label>
+          <input type="text" id="colorName" name="colorName" value={formData.colorName} onChange={handleChange} required />
 
-            <label htmlFor="colorMedium">Medium*</label>
-            <input type="text" id="colorMedium" name="colorMedium" value={formData.colorMedium} onChange={handleChange} required />
+          <label htmlFor="colorMedium">Medium*</label>
+          <input type="text" id="colorMedium" name="colorMedium" value={formData.colorMedium} onChange={handleChange} required />
 
-            <label htmlFor="manufacturer">Manufacturer</label>
-            <input type="text" id="manufacturer" name="manufacturer" value={formData.manufacturer} onChange={handleChange} />
+          <label htmlFor="manufacturer">Manufacturer</label>
+          <input type="text" id="manufacturer" name="manufacturer" value={formData.manufacturer} onChange={handleChange} />
 
-            <label htmlFor="colorFamily">Colour Family</label>
-            <input type="text" id="colorFamily" name="colorFamily" value={formData.colorFamily} onChange={handleChange} />
+          <label htmlFor="colorFamily">Colour Family</label>
+          <input type="text" id="colorFamily" name="colorFamily" value={formData.colorFamily} onChange={handleChange} />
 
-            <label htmlFor="tags">Tags (ex: cold, opaque)</label>
-            <input type="text" id="tags" name="tags" value={formData.tags} onChange={handleChange} />
+          <label htmlFor="tags">Tags (ex: cold, opaque)</label>
+          <input type="text" id="tags" name="tags" value={formData.tags} onChange={handleChange} />
 
-            <label htmlFor="quantity">Quantity</label>
-            <input type="number" id="quantity" name="quantity" value={formData.quantity} onChange={handleChange} />
+          <label htmlFor="quantity">Quantity</label>
+          <input type="number" id="quantity" name="quantity" value={formData.quantity} onChange={handleChange} />
 
-            <button type="submit">Add Color</button>
+          <button type="submit">Add Color</button>
         </form>
-    );
+      )}
+    </div>
+  );
 };
 
 export default AddColorForm;
