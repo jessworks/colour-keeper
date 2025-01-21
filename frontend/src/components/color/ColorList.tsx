@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import { fetchUserColors } from '../../services/supabaseClient';
 import { IColors } from '../../models/IColor';
 import { useLoggedInUser } from '../../hooks/useLoggedInUser';
+import { EditColorForm } from './EditColorForm';
 
-const ColorList = () => {
+export const ColorList = () => {
   const [colors, setColors] = useState<IColors[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [editingColor, setEditingColor] = useState<IColors | null>(null); // Track color being edited
   const { user } = useLoggedInUser(); // Get the logged-in user info
 
   useEffect(() => {
@@ -33,9 +35,31 @@ const ColorList = () => {
     };
     
   
-
     fetchColors();
   }, [user]);
+
+
+  // Handle editing
+  const handleEdit = (color: IColors) => {
+    setEditingColor(color); // Set the color to be edited
+  };
+
+  // Save the updated color after editing
+  const handleSave = (updatedColor: IColors) => {
+    setColors((prevColors) =>
+      prevColors.map((color) =>
+        color.id === updatedColor.id ? updatedColor : color
+      )
+    );
+    setEditingColor(null); // Close the edit form after saving
+  };
+
+  // Cancel editing
+  const handleCancel = () => {
+    setEditingColor(null); // Close the edit form without saving
+  };
+
+
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -51,16 +75,27 @@ const ColorList = () => {
           {colors.map((color) => (
             <li key={color.id}>
               <img src={color.imageUrl} alt={color.colorName} style={{ width: '50px', height: '50px' }} />
-              <p><strong>Name:</strong> {color.colorName}</p>
-              <p><strong>Medium:</strong> {color.colorMedium}</p>
-              {color.manufacturer && <p><strong>Manufacturer:</strong> {color.manufacturer}</p>}
-              {color.quantity !== undefined && <p><strong>Quantity:</strong> {color.quantity}</p>}
+              <p>Colour Name: {color.colorName}</p>
+              <p>Medium: {color.colorMedium}</p>
+              {color.manufacturer && <p>Manufacturer: {color.manufacturer}</p>}
+              {color.colorFamily && (<p>Colour Family: {color.colorFamily}</p>)}
+              {color.tags && (<p>Tags: {color.tags}</p>)}
+              {color.quantity && color.quantity > 0 && <p>Quantity: {color.quantity}</p>}
+              <button onClick={() => handleEdit(color)}>Edit</button>
             </li>
           ))}
         </ul>
       )}
+
+      {/* Render the EditColorForm when a color is being edited */}
+      {editingColor && (
+        <EditColorForm
+          color={editingColor}
+          onSave={handleSave}
+          onCancel={handleCancel}
+        />
+      )}
+
     </div>
   );
 };
-
-export default ColorList;

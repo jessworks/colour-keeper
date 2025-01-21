@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { IUser } from '../models/IUser';
+import { IColors } from '../models/IColor';
 
 
 // Use environment variables for Supabase configuration
@@ -71,6 +72,35 @@ export const fetchUserDetails = async (userId: string): Promise<IUser> => {
 };
 
 
+// Upload an image to Supabase Storage
+export const uploadImage = async (file: File): Promise<string> => {
+  const { data, error } = await supabase.storage
+    .from('colors-images') // Adjust bucket name if needed
+    .upload(`images/${file.name}`, file);
+
+  if (error) {
+    throw new Error('Failed to upload image.');
+  }
+
+  // Return the public URL of the uploaded image
+  return supabase.storage.from('colors-images').getPublicUrl(data.path).data.publicUrl || '';
+};
+
+// Add a color to the database
+export const addColor = async (userId: string, colorData: Omit<IColors, 'id'>): Promise<void> => {
+  const { error } = await supabase.from('colors').insert([
+    {
+      ...colorData,
+      user_id: userId,
+    },
+  ]);
+
+  if (error) {
+    throw new Error('Failed to add color to database.');
+  }
+};
+
+
 export const fetchUserColors = async (userId: string) => {
   const { data, error } = await supabase
     .from('colors')
@@ -83,4 +113,17 @@ export const fetchUserColors = async (userId: string) => {
   }
 
   return data;
+};
+
+
+// Edit a color in the database
+export const editColor = async (colorId: string, updatedData: Partial<IColors>): Promise<void> => {
+  const { error } = await supabase
+    .from('colors')
+    .update(updatedData)
+    .eq('id', colorId);
+
+  if (error) {
+    throw new Error('Failed to update color.');
+  }
 };

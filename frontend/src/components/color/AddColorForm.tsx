@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { supabase } from '../../services/supabaseClient'; // Import your Supabase client instance
+import { supabase, uploadImage, addColor } from '../../services/supabaseClient'; // Import functions
 import { IColors } from '../../models/IColor';
 
-const AddColorForm = () => {
+export const AddColorForm = () => {
   const [formData, setFormData] = useState<Omit<IColors, 'id'>>({
     imageUrl: '',
     colorName: '',
@@ -15,7 +15,6 @@ const AddColorForm = () => {
 
   const [file, setFile] = useState<File | null>(null);
   const [isFormVisible, setFormVisible] = useState(false);
-
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -33,17 +32,9 @@ const AddColorForm = () => {
     try {
       let imageUrl = formData.imageUrl;
 
-      // Upload the image to Supabase Storage
+      // Upload the image
       if (file) {
-        const { data, error } = await supabase.storage
-          .from('colors-images')
-          .upload(`images/${file.name}`, file);
-
-        if (error) throw new Error('Failed to upload image.');
-        
-        imageUrl = data?.path
-          ? supabase.storage.from('colors-images').getPublicUrl(data.path).data.publicUrl || ''
-          : '';
+        imageUrl = await uploadImage(file); // Use the helper function
       }
 
       const {
@@ -57,24 +48,10 @@ const AddColorForm = () => {
 
       const userId = session.user.id; // Get the user ID from the session
 
-      // Insert the color data into Supabase
-      const { error: insertError } = await supabase.from('colors').insert([
-        {
-          imageUrl: imageUrl || null,
-          colorName: formData.colorName,
-          colorMedium: formData.colorMedium,
-          manufacturer: formData.manufacturer || null,
-          colorFamily: formData.colorFamily || null,
-          tags: formData.tags || null,
-          quantity: formData.quantity || null,
-          user_id: userId,
-        },
-      ]);
-
-      if (insertError) throw new Error ('Failed to add color to database.');
+      // Add color using the helper function
+      await addColor(userId, { ...formData, imageUrl });
 
       alert('Color added successfully!');
-
       setFormData({
         imageUrl: '',
         colorName: '',
@@ -87,13 +64,11 @@ const AddColorForm = () => {
 
       setFile(null);
       setFormVisible(false);
-
     } catch (error) {
       console.error('Error adding color:', error);
       alert('Failed to add color. Please try again.');
     }
   };
-
 
   return (
     <div>
@@ -101,7 +76,6 @@ const AddColorForm = () => {
         {isFormVisible ? 'Cancel' : 'Add Color'}
       </button>
       {isFormVisible && (
-        
         <form onSubmit={handleSubmit}>
           <label htmlFor="imageUrl">Upload Image of Color</label>
           <input type="file" id="imageUrl" onChange={handleFileChange} />
@@ -130,5 +104,3 @@ const AddColorForm = () => {
     </div>
   );
 };
-
-export default AddColorForm;
