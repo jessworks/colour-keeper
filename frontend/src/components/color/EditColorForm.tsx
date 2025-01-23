@@ -121,5 +121,3 @@ export const EditColorForm = ({ color, onSave, onCancel }: EditColorFormProps) =
     </form>
   );
 };
-
-

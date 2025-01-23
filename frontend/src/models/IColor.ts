@@ -5,6 +5,6 @@ export interface IColors{
     colorMedium: string;
     manufacturer?: string;
     colorFamily?: string;
-    tags?: string;
+    tags?: string[];
     quantity?: number;
 }

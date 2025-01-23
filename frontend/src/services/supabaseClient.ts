@@ -86,19 +86,33 @@ export const uploadImage = async (file: File): Promise<string> => {
   return supabase.storage.from('colors-images').getPublicUrl(data.path).data.publicUrl || '';
 };
 
-// Add a color to the database
-export const addColor = async (userId: string, colorData: Omit<IColors, 'id'>): Promise<void> => {
-  const { error } = await supabase.from('colors').insert([
-    {
-      ...colorData,
-      user_id: userId,
-    },
-  ]);
+export const addColor = async (userId: string, colorData: Omit<IColors, 'id'>) => {
+  try {
+    const { data, error } = await supabase.from('colors').insert([
+      {
+        user_id: userId,
+        colorName: colorData.colorName,
+        colorMedium: colorData.colorMedium,
+        manufacturer: colorData.manufacturer || null,
+        colorFamily: colorData.colorFamily || null,
+        tags: colorData.tags || null, // Make sure this is an array or null
+        quantity: colorData.quantity || null,
+        imageUrl: colorData.imageUrl || null,
+      },
+    ]);
 
-  if (error) {
-    throw new Error('Failed to add color to database.');
+    if (error) {
+      console.error('Supabase insert error:', error);
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error adding color:', error);
+    throw error;
   }
 };
+
 
 
 export const fetchUserColors = async (userId: string) => {
