@@ -1,15 +1,16 @@
 import { useState } from 'react';
-import { supabase, uploadImage, addColor } from '../../services/supabaseClient'; // Import functions
-import { IColors } from '../../models/IColor';
+import { supabase, uploadImage, addColor } from '../../services/supabaseClient';
+import { IColor } from '../../models/IColor';
+
 
 export const AddColorForm = () => {
-  const [formData, setFormData] = useState<Omit<IColors, 'id'>>({
+  const [formData, setFormData] = useState<Omit<IColor, 'id'>>({
     imageUrl: '',
     colorName: '',
     colorMedium: '',
     manufacturer: '',
     colorFamily: '',
-    tags: [], // Tags should be an array
+    tags: [],
     quantity: 0,
   });
 
@@ -20,7 +21,7 @@ export const AddColorForm = () => {
     const { name, value } = e.target;
     if (name === 'tags') {
       const cleanedTags = value
-        .split(',') // Split by comma
+        .split(',')
         .map((tag) => tag.trim()) // Trim spaces around each tag
         .filter((tag) => tag !== ''); // Remove empty tags
       
@@ -82,7 +83,7 @@ export const AddColorForm = () => {
         colorMedium: '',
         manufacturer: '',
         colorFamily: '',
-        tags: [], // Reset to an empty array
+        tags: [],
         quantity: 0,
       });
   
@@ -99,10 +100,16 @@ export const AddColorForm = () => {
       <button onClick={() => setFormVisible((prev) => !prev)}>
         {isFormVisible ? 'Cancel' : 'Add Color'}
       </button>
+
       {isFormVisible && (
+        
         <form onSubmit={handleSubmit}>
           <label htmlFor="imageUrl">Upload Image of Color</label>
-          <input type="file" id="imageUrl" onChange={handleFileChange} />
+          <input
+            type="file"
+            id="imageUrl"
+            onChange={handleFileChange}
+          />
 
           <label htmlFor="colorName">Colour Name*</label>
           <input

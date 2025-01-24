@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { IUser } from '../models/IUser';
-import { IColors } from '../models/IColor';
+import { IColor } from '../models/IColor';
 
 
 // Use environment variables for Supabase configuration
@@ -55,7 +55,7 @@ export const registerUser = async (
 export const fetchUserDetails = async (userId: string): Promise<IUser> => {
   const { data, error } = await supabase
     .from('users') // Table name as string
-    .select('user_id, username, email') // Columns to fetch
+    .select('user_id, username, email') // remove email?
     .eq('user_id', userId)
     .single();
 
@@ -72,10 +72,9 @@ export const fetchUserDetails = async (userId: string): Promise<IUser> => {
 };
 
 
-// Upload an image to Supabase Storage
 export const uploadImage = async (file: File): Promise<string> => {
   const { data, error } = await supabase.storage
-    .from('colors-images') // Adjust bucket name if needed
+    .from('colors-images')
     .upload(`images/${file.name}`, file);
 
   if (error) {
@@ -86,7 +85,7 @@ export const uploadImage = async (file: File): Promise<string> => {
   return supabase.storage.from('colors-images').getPublicUrl(data.path).data.publicUrl || '';
 };
 
-export const addColor = async (userId: string, colorData: Omit<IColors, 'id'>) => {
+export const addColor = async (userId: string, colorData: Omit<IColor, 'id'>) => {
   try {
     const { data, error } = await supabase.from('colors').insert([
       {
@@ -95,7 +94,7 @@ export const addColor = async (userId: string, colorData: Omit<IColors, 'id'>) =
         colorMedium: colorData.colorMedium,
         manufacturer: colorData.manufacturer || null,
         colorFamily: colorData.colorFamily || null,
-        tags: colorData.tags || null, // Make sure this is an array or null
+        tags: colorData.tags || null, 
         quantity: colorData.quantity || null,
         imageUrl: colorData.imageUrl || null,
       },
@@ -114,12 +113,11 @@ export const addColor = async (userId: string, colorData: Omit<IColors, 'id'>) =
 };
 
 
-
 export const fetchUserColors = async (userId: string) => {
   const { data, error } = await supabase
     .from('colors')
-    .select('*') // Select all fields or specify required ones
-    .eq('user_id', userId); // Match colors to the user's user_id
+    .select('*')
+    .eq('user_id', userId);
 
   if (error) {
     console.error('Error fetching colors:', error);
@@ -130,8 +128,7 @@ export const fetchUserColors = async (userId: string) => {
 };
 
 
-// Edit a color in the database
-export const editColor = async (colorId: string, updatedData: Partial<IColors>): Promise<void> => {
+export const editColor = async (colorId: string, updatedData: Partial<IColor>): Promise<void> => {
   const { error } = await supabase
     .from('colors')
     .update(updatedData)

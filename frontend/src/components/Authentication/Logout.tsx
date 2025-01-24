@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import { supabase } from '../../services/supabaseClient';
 
-const Logout = () => {
+
+export const Logout = () => {
   const [message, setMessage] = useState<string>('');
 
   const handleLogout = async () => {
     setMessage('');
 
     try {
-      // Log the user out using Supabase Authentication
       await supabase.auth.signOut();
 
       // Reset the frontend state (e.g., user state in a parent component)
       setMessage('Logout successful!');
-      // You might want to redirect the user to the login or home page after logout
+     
     } catch (err) {
       console.error(err);
       setMessage('Error logging out');
@@ -27,5 +27,3 @@ const Logout = () => {
     </div>
   );
 };
-
-export default Logout;

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { fetchUserColors } from '../../services/supabaseClient';
-import { IColors } from '../../models/IColor';
+import { IColor } from '../../models/IColor';
 import { useLoggedInUser } from '../../hooks/useLoggedInUser';
 import { EditColorForm } from './EditColorForm';
 
 export const ColorList = () => {
-  const [colors, setColors] = useState<IColors[]>([]);
+  const [colors, setColors] = useState<IColor[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [editingColor, setEditingColor] = useState<IColors | null>(null); // Track color being edited
+  const [editingColor, setEditingColor] = useState<IColor | null>(null); // Track color being edited
   const { user } = useLoggedInUser(); // Get the logged-in user info
 
   useEffect(() => {
@@ -40,12 +40,12 @@ export const ColorList = () => {
 
 
   // Handle editing
-  const handleEdit = (color: IColors) => {
+  const handleEdit = (color: IColor) => {
     setEditingColor(color); // Set the color to be edited
   };
 
   // Save the updated color after editing
-  const handleSave = (updatedColor: IColors) => {
+  const handleSave = (updatedColor: IColor) => {
     setColors((prevColors) =>
       prevColors.map((color) =>
         color.id === updatedColor.id ? updatedColor : color

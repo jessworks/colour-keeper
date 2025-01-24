@@ -2,14 +2,14 @@ import  { useState } from 'react';
 import { IUser } from '../../models/IUser';
 import { supabase } from '../../services/supabaseClient';
 
-const Login = () => {
+export const Login = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [success, setSuccess] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [user, setUser] = useState<IUser | null>(null);
 
-  // Handle form submission
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSuccess('');
@@ -58,27 +58,37 @@ const Login = () => {
   return (
     <div>
       <h2>Login</h2>
+      
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="email">Email</label>
-          <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
         </div>
 
         <div>
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
         </div>
 
         <button type="submit">Login</button>
       </form>
 
-      {error && <div style={{ color: 'red' }}>{error}</div>}
-      {success && <div style={{ color: 'green' }}>{success}</div>}
+      {error && <div>{error}</div>}
+      {success && <div>{success}</div>}
 
-      {/* Display the welcome message if user is logged in */}
-      {user && <div>Welcome {user.username}!</div>}
+      {user && <div>Hello {user.username}! Let's look at some colours.</div>}
     </div>
   );
 };
-
-export default Login;

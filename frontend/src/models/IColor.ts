@@ -1,4 +1,4 @@
-export interface IColors{
+export interface IColor{
     id: string;
     imageUrl?: string;
     colorName: string;

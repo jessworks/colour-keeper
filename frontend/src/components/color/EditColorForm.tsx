@@ -1,49 +1,38 @@
 import { useState } from 'react';
 import { editColor } from '../../services/supabaseClient';
-import { IColors } from '../../models/IColor';
+import { IColor } from '../../models/IColor';
 
 interface EditColorFormProps {
-  color: IColors;
-  onSave: (updatedColor: IColors) => void;
-  onCancel: () => void;
+  color: IColor;
+  onSave: () => void; // Callback to refresh the color list after saving
+  onCancel: () => void; // Callback to close the edit form
 }
 
-export const EditColorForm = ({ color, onSave, onCancel }: EditColorFormProps) => {
-  const [formData, setFormData] = useState<IColors>({
-    ...color,
-    manufacturer: color.manufacturer || '',
-    colorFamily: color.colorFamily || '',
-    tags: color.tags || '',
-    quantity: color.quantity ?? 0,
-  });
+export const EditColorForm: React.FC<EditColorFormProps> = ({ color, onSave, onCancel }) => {
+  const [formData, setFormData] = useState<Omit<IColor, 'id'>>(color);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === 'quantity' ? Math.max(0, Number(value)) : value, // Prevent negative quantity
-    }));
+    if (name === 'tags') {
+      const cleanedTags = value
+        .split(',')
+        .map((tag) => tag.trim())
+        .filter((tag) => tag !== '');
+      setFormData((prev) => ({ ...prev, tags: cleanedTags }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
-      // Call the service function to update the color
-      await editColor(formData.id, {
-        colorName: formData.colorName,
-        colorMedium: formData.colorMedium,
-        manufacturer: formData.manufacturer,
-        colorFamily: formData.colorFamily,
-        tags: formData.tags,
-        quantity: formData.quantity,
-      });
-
-      onSave(formData); // Notify the parent component with the updated color
+      await editColor(color.id, formData);
+      alert('Color updated successfully!');
+      onSave(); // Refresh the list
     } catch (error) {
-      console.error('Error updating color:', error);
-      alert('Failed to update color. Please try again.');
+      console.error('Failed to update color:', error);
+      alert('Error updating color. Please try again.');
     }
   };
 
@@ -59,7 +48,6 @@ export const EditColorForm = ({ color, onSave, onCancel }: EditColorFormProps) =
         value={formData.colorName}
         onChange={handleChange}
         required
-        placeholder="Enter the color name"
       />
 
       <label htmlFor="colorMedium">Medium*</label>
@@ -70,7 +58,6 @@ export const EditColorForm = ({ color, onSave, onCancel }: EditColorFormProps) =
         value={formData.colorMedium}
         onChange={handleChange}
         required
-        placeholder="e.g., Watercolor, Oil"
       />
 
       <label htmlFor="manufacturer">Manufacturer</label>
@@ -78,9 +65,8 @@ export const EditColorForm = ({ color, onSave, onCancel }: EditColorFormProps) =
         type="text"
         id="manufacturer"
         name="manufacturer"
-        value={formData.manufacturer}
+        value={formData.manufacturer || ''}
         onChange={handleChange}
-        placeholder="Enter the manufacturer"
       />
 
       <label htmlFor="colorFamily">Color Family</label>
@@ -88,19 +74,17 @@ export const EditColorForm = ({ color, onSave, onCancel }: EditColorFormProps) =
         type="text"
         id="colorFamily"
         name="colorFamily"
-        value={formData.colorFamily}
+        value={formData.colorFamily || ''}
         onChange={handleChange}
-        placeholder="e.g., Red, Blue"
       />
 
-      <label htmlFor="tags">Tags</label>
+      <label htmlFor="tags">Tags (comma-separated)</label>
       <input
         type="text"
         id="tags"
         name="tags"
-        value={formData.tags}
+        value={(formData.tags || []).join(', ')}
         onChange={handleChange}
-        placeholder="e.g., warm, opaque"
       />
 
       <label htmlFor="quantity">Quantity</label>
@@ -108,16 +92,12 @@ export const EditColorForm = ({ color, onSave, onCancel }: EditColorFormProps) =
         type="number"
         id="quantity"
         name="quantity"
-        value={formData.quantity}
+        value={formData.quantity || 0}
         onChange={handleChange}
-        min={0}
-        placeholder="Enter the quantity"
       />
 
       <button type="submit">Save</button>
-      <button type="button" onClick={onCancel}>
-        Cancel
-      </button>
+      <button type="button" onClick={onCancel}>Cancel</button>
     </form>
   );
 };
