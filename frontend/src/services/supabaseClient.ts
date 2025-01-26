@@ -128,13 +128,42 @@ export const fetchUserColors = async (userId: string) => {
 };
 
 
-export const editColor = async (colorId: string, updatedData: Partial<IColor>): Promise<void> => {
-  const { error } = await supabase
-    .from('colors')
-    .update(updatedData)
-    .eq('id', colorId);
+export const editColor = async (id: string, updatedData: Partial<IColor>, userId: string): Promise<void> => {
+  try {
+    console.log('User ID:', userId);
+    
+    // Check if the color belongs to the current user by verifying user_id in the colors table
+    const { data: color, error: selectError } = await supabase
+      .from('colors')
+      .select('user_id')
+      .eq('id', id)  // Using 'id' to identify the color
+      .single(); // Ensures only one result is returned
+    if (selectError) {
+      throw new Error('Error fetching color: ' + selectError.message);
+    }
 
-  if (error) {
-    throw new Error('Failed to update color.');
+    console.log('Color User ID:', color?.user_id);
+
+    // !! problemet börjar här !! console.log visar att User ID = ColorUser ID
+    if (color?.user_id !== userId) {
+      throw new Error('You are not authorized to edit this color');
+    }
+
+    /*
+    !! försöker update 'id' i 'colors' !! 'id' har inget input fält 
+      --> IColors i EditColorForm.tsx problemet?
+    */
+    const { error } = await supabase
+      .from('colors')
+      .update(updatedData)
+      .eq('id', id); 
+    if (error) {
+      throw new Error('Failed to update color: ' + error.message); // ger det här och 'column "id" can only be updataded in DEFAULT' ref. EditColorForm.tsx 43
+    }
+
+    console.log('Color updated successfully');
+  } catch (error) {
+    console.error('Error updating color:', error);
+    throw error;
   }
 };

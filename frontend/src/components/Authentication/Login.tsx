@@ -47,11 +47,23 @@ export const Login = () => {
             email: userData.email,
           });
           setSuccess('Login successful!');
+
+          // Clear input fields
+          setEmail('');
+          setPassword('');
+
+          // Clear success message after 3 seconds
+          setTimeout(() => setSuccess(''), 3000);
+
         }
       }
     } catch (err) {
       console.error(err);
       setError((err as Error).message);
+
+       // Clear error message after 3 seconds
+       setTimeout(() => setError(''), 3000);
+
     }
   };
 

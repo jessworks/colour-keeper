@@ -1,52 +1,68 @@
 import { useState } from 'react';
 import { editColor } from '../../services/supabaseClient';
 import { IColor } from '../../models/IColor';
+import { useLoggedInUser } from '../../hooks/useLoggedInUser';
+
 
 interface EditColorFormProps {
   color: IColor;
-  onSave: () => void; // Callback to refresh the color list after saving
+  onSave: (updatedColor: IColor) => void; // Callback to refresh the color list after saving
   onCancel: () => void; // Callback to close the edit form
 }
 
-export const EditColorForm: React.FC<EditColorFormProps> = ({ color, onSave, onCancel }) => {
-  const [formData, setFormData] = useState<Omit<IColor, 'id'>>(color);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+export const EditColorForm = ({ color, onSave, onCancel }: EditColorFormProps) => {
+  const [updatedColor, setUpdatedColor] = useState<IColor>(color);
+  const [error, setError] = useState<string | null>(null);
+
+  const loggedInUser  = useLoggedInUser();
+  const userId = loggedInUser?.user?.id;
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (name === 'tags') {
-      const cleanedTags = value
-        .split(',')
-        .map((tag) => tag.trim())
-        .filter((tag) => tag !== '');
-      setFormData((prev) => ({ ...prev, tags: cleanedTags }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
+    setUpdatedColor((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('Submitting update:', updatedColor);
+
+    if (!userId) {
+      setError('User is not logged in');
+      return;
+    }
+
+    /* !! problemet börjar här !!
+        --> den ska uppdatera det som ligger under färgens id, men får inte uppdatera själva id
+        --> updatedData: Partial<IColor> uppdaterar det som ändrats
+        --> borde updatedColor useState vara som 'Partial<IColor>'?
+        --> säger updatedColor att allt i IColor ska in?
+            --> om ja, hur stoppar jag det?
+    */
     try {
-      await editColor(color.id, formData);
-      alert('Color updated successfully!');
-      onSave(); // Refresh the list
-    } catch (error) {
-      console.error('Failed to update color:', error);
-      alert('Error updating color. Please try again.');
+      await editColor(updatedColor.id, updatedColor, userId); // Update in Supabase
+      onSave(updatedColor); // Refresh local state in parent
+
+    } catch (err) {
+      console.error('Failed to update color:', err);  // ref. supabaseClient.tsx 161
+      setError('Failed to save changes. Please try again.');
     }
   };
+
 
   return (
     <form onSubmit={handleSubmit}>
       <h3>Edit Color</h3>
+
+       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <label htmlFor="colorName">Color Name*</label>
       <input
         type="text"
         id="colorName"
         name="colorName"
-        value={formData.colorName}
-        onChange={handleChange}
+        value={updatedColor.colorName}
+        onChange={handleInputChange}
         required
       />
 
@@ -55,8 +71,8 @@ export const EditColorForm: React.FC<EditColorFormProps> = ({ color, onSave, onC
         type="text"
         id="colorMedium"
         name="colorMedium"
-        value={formData.colorMedium}
-        onChange={handleChange}
+        value={updatedColor.colorMedium}
+        onChange={handleInputChange}
         required
       />
 
@@ -65,8 +81,8 @@ export const EditColorForm: React.FC<EditColorFormProps> = ({ color, onSave, onC
         type="text"
         id="manufacturer"
         name="manufacturer"
-        value={formData.manufacturer || ''}
-        onChange={handleChange}
+        value={updatedColor.manufacturer || ''}
+        onChange={handleInputChange}
       />
 
       <label htmlFor="colorFamily">Color Family</label>
@@ -74,17 +90,22 @@ export const EditColorForm: React.FC<EditColorFormProps> = ({ color, onSave, onC
         type="text"
         id="colorFamily"
         name="colorFamily"
-        value={formData.colorFamily || ''}
-        onChange={handleChange}
+        value={updatedColor.colorFamily || ''}
+        onChange={handleInputChange}
       />
 
-      <label htmlFor="tags">Tags (comma-separated)</label>
+      <label htmlFor="tags">Tags (ex: cold, opaque)</label>
       <input
         type="text"
         id="tags"
         name="tags"
-        value={(formData.tags || []).join(', ')}
-        onChange={handleChange}
+        value={(updatedColor.tags || []).join(', ')}
+        onChange={(e) =>
+          setUpdatedColor((prev) => ({
+            ...prev,
+            tags: e.target.value.split(',').map((tag) => tag.trim()),
+          }))
+        }
       />
 
       <label htmlFor="quantity">Quantity</label>
@@ -92,8 +113,8 @@ export const EditColorForm: React.FC<EditColorFormProps> = ({ color, onSave, onC
         type="number"
         id="quantity"
         name="quantity"
-        value={formData.quantity || 0}
-        onChange={handleChange}
+        value={updatedColor.quantity || 0}
+        onChange={handleInputChange}
       />
 
       <button type="submit">Save</button>

@@ -11,12 +11,14 @@ export const useLoggedInUser = () => {
     const fetchUser = async () => {
       const { data, error } = await supabase.auth.getUser();
       console.log('Fetched user:', data?.user); // Debugging
+
       if (!error) {
         setUser(data?.user || null);
       }
+
       setLoading(false);
     };
-
+    
     fetchUser();
 
     // Listen for authentication state changes
@@ -31,5 +33,9 @@ export const useLoggedInUser = () => {
     };
   }, []);
 
-  return { user, loading };
+  const clearUser = () => {
+    setUser(null); // Clear the user state explicitly
+  };
+
+  return { user, loading, clearUser };
 };

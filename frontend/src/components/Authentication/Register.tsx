@@ -22,9 +22,22 @@ export const Register = () => {
       const registeredUser = await registerUser(username, email, password);
       setUser(registeredUser);  // Store the user object in the state
       setSuccess('Registration successful!');
+
+      // Clear input fields
+      setUsername('');
+      setEmail('');
+      setPassword('');
+
+      // Clear success message after 3 seconds
+      setTimeout(() => setSuccess(''), 3000);
+
     } catch (err) {
       console.error(err);
       setError((err as Error).message);
+
+       // Clear error message after 3 seconds
+       setTimeout(() => setError(''), 3000);
+
     }
   };
 

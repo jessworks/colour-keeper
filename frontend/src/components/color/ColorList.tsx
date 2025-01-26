@@ -4,6 +4,7 @@ import { IColor } from '../../models/IColor';
 import { useLoggedInUser } from '../../hooks/useLoggedInUser';
 import { EditColorForm } from './EditColorForm';
 
+
 export const ColorList = () => {
   const [colors, setColors] = useState<IColor[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -21,53 +22,53 @@ export const ColorList = () => {
         const data = await fetchUserColors(user.id);
         console.log('Fetched colors:', data); // Debugging line to check fetched data
         setColors(data || []);
+
       } catch (err) {
-        if (err instanceof Error) {
-          // Now TypeScript knows that err is an instance of Error
-          console.error('Error fetching user colors:', err);
-          setError(err.message);
-        } else {
-          // Handle case where err is not an instance of Error
-          console.error('Unexpected error:', err);
-          setError('An unknown error occurred.');
-        }
+        console.error('Error fetching user colors:', err);
+        setError('Failed to load colors.');
       }
     };
     
-  
     fetchColors();
   }, [user]);
 
+   // Log when editingColor changes
+   useEffect(() => {
+    if (editingColor) {
+      console.log('Editing color:', editingColor);
+    }
+  }, [editingColor]); // Dependency on editingColor to log each time it changes
 
-  // Handle editing
   const handleEdit = (color: IColor) => {
-    setEditingColor(color); // Set the color to be edited
+    console.log('Editing color:', color);
+    setEditingColor(color);
+    console.log('Current editingColor:', editingColor);
+
   };
 
-  // Save the updated color after editing
   const handleSave = (updatedColor: IColor) => {
     setColors((prevColors) =>
       prevColors.map((color) =>
         color.id === updatedColor.id ? updatedColor : color
       )
     );
+
     setEditingColor(null); // Close the edit form after saving
   };
 
-  // Cancel editing
   const handleCancel = () => {
     setEditingColor(null); // Close the edit form without saving
   };
-
-
 
   if (error) {
     return <div>Error: {error}</div>;
   }
 
+
   return (
     <div>
       <h2>Your Colors</h2>
+      
       {colors.length === 0 ? (
         <p>No colors found.</p>
       ) : (
@@ -86,6 +87,7 @@ export const ColorList = () => {
           ))}
         </ul>
       )}
+
 
       {/* Render the EditColorForm when a color is being edited */}
       {editingColor && (
