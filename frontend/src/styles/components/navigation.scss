@@ -61,10 +61,12 @@
     li {
       a {
         text-decoration: none;
-        color: $black;
+        color: $primary-color;
 
+        // not when hovering, but when clicked --> why?
         &:hover {
-          color: $accent-secondary-color; // hover effect menu items
+          color: $primary-color; // hover effect menu items
+          border-bottom: 2px solid $tertiary-color;
         }
       }
     }
