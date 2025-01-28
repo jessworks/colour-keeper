@@ -1,4 +1,5 @@
-@import './globals';
-@import './variables';
-@import './components/header.scss';
-@import './components/navigation.scss';
+@use './globals';
+@use './variables';
+@use './components/header.scss';
+@use './components/navigation.scss';
+@use './pages/colors.scss';

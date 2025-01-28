@@ -1,3 +1,97 @@
-.nav {
+@import '../variables';
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  background-color: $secondary-color; // background behind burger 
+  color: $white;
+
+  .burger-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    right: 0.8rem; // burger to the right
+    z-index: 20; // burger is above nav when active
+    transition: transform 0.3s ease-in-out;
+    top: 65%;
+
+    span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background-color: $primary-color; // bars' color
+      transition: all 0.3s ease;
+    }
+
+    // 'x' transformation when active
+    &.active {
+      span:nth-child(1) {
+        transform: rotate(45deg);
+        position: absolute;
+      }
+      span:nth-child(2) {
+        opacity: 0; // middle bar hidden
+      }
+      span:nth-child(3) {
+        transform: rotate(-45deg);
+        position: absolute;
+      }
+    }
+  }
+
+  .nav {
     list-style: none;
+    display: none; // hidden by default
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0;
+    position: absolute;
+    top: 60px; // adjusted based on navbar height
+    left: 0;
+    width: 100%;
+    background-color: $accent-secondary-color; // background menu items
+    padding: 1rem;
+
+    li {
+      a {
+        text-decoration: none;
+        color: $black;
+
+        &:hover {
+          color: $accent-secondary-color; // hover effect menu items
+        }
+      }
+    }
+  }
+
+  // active burger --> show menu
+  &.active {
+    .nav {
+      display: flex; // show burger version on smaller screens
+    }
+  }
+
+  @media (min-width: 768px) {
+    .burger-menu {
+      display: none; // hide burger version on larger screens
+    }
+
+    .nav {
+      display: flex; // manu bar on larger screen
+      flex-direction: row;
+      gap: 2rem;
+
+      li {
+        a {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
 }
