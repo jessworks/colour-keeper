@@ -1,8 +1,17 @@
-body {
+@import './variables';
 
+#root {
+  padding: 0 !important;
+}
+
+body {
+  margin: 0;
   font-family: 'Nunito Sans', sans-serif;
 }
 
 main {
-  margin-top: 200px;
+  background-color: $grey-18-percent;
+  height: 100vh;
+  width: 100%;
+  padding-top: 200px;
 }
