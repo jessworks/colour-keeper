@@ -153,9 +153,12 @@ export const editColor = async (id: string, updatedData: Partial<IColor>, userId
     !! försöker update 'id' i 'colors' !! 'id' har inget input fält 
       --> IColors i EditColorForm.tsx problemet?
     */
+    const dataExcludeId = Object.assign({}, updatedData);
+    delete dataExcludeId.id;
+
     const { error } = await supabase
       .from('colors')
-      .update(updatedData)
+      .update(dataExcludeId)
       .eq('id', id); 
     if (error) {
       throw new Error('Failed to update color: ' + error.message); // ger det här och 'column "id" can only be updataded in DEFAULT' ref. EditColorForm.tsx 43
@@ -163,6 +166,7 @@ export const editColor = async (id: string, updatedData: Partial<IColor>, userId
 
     console.log('Color updated successfully');
   } catch (error) {
+    console.log(updatedData);
     console.error('Error updating color:', error);
     throw error;
   }
