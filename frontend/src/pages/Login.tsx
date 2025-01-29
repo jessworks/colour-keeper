@@ -5,10 +5,10 @@ import { Logout } from '../components/authentication/Logout';
 
 export const UserCredentials = () => {
     return (
-        <>
+        <div className="login-page">
             <Register />
             <Login />
             <Logout />
-        </>
+        </div>
     )
 }

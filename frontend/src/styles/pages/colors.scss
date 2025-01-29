@@ -1,2 +1,5 @@
-@use '../variables';
+@import '../variables';
 
+.color-page {
+    background-color: $grey-18-percent;
+}
