@@ -5,3 +5,15 @@
     background-color: $light-grey;
 }
 */
+
+.welcome-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 70%;         
+    min-width: 250px;
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: left;
+}
