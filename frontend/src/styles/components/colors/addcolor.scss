@@ -1,0 +1,10 @@
+@import '../../mixins';
+
+
+//det funkar, bygg på
+form {
+    input {
+        @include form-input;
+    }
+}
+    

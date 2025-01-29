@@ -1,12 +1,14 @@
-@use './variables';
+@import './variables';
 
 #root {
   padding: 0 !important;
 }
 
 body {
-  margin: 0;
   font-family: 'Nunito Sans', sans-serif;
+  background-color: $grey-18-percent;
+  height: 100%;
+  margin: 0;
 }
 
 main {

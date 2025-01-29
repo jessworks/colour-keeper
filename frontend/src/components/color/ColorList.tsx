@@ -3,6 +3,8 @@ import { fetchUserColors } from '../../services/supabaseClient';
 import { IColor } from '../../models/IColor';
 import { useLoggedInUser } from '../../hooks/useLoggedInUser';
 import { EditColorForm } from './EditColorForm';
+import  defaultColorImg from '../../assets/color-img-default.jpg';
+
 
 
 export const ColorList = () => {
@@ -67,7 +69,7 @@ export const ColorList = () => {
 
   return (
     <div>
-      <h2>Your Colors</h2>
+      <h2>Your Colours</h2>
       
       {colors.length === 0 ? (
         <p>No colors found.</p>
@@ -75,7 +77,7 @@ export const ColorList = () => {
         <ul>
           {colors.map((color) => (
             <li key={color.id}>
-              <img src={color.imageUrl} alt={color.colorName} style={{ width: '50px', height: '50px' }} />
+              <img src={color.imageUrl || defaultColorImg} alt={color.colorName} style={{ width: '200px', height: '75px' }} />
               <p>Colour Name: {color.colorName}</p>
               <p>Medium: {color.colorMedium}</p>
               {color.manufacturer && <p>Manufacturer: {color.manufacturer}</p>}

@@ -4,7 +4,6 @@ import { ColorList } from "../components/color/ColorList"
 export const Colors = () => {
     return (
         <>
-            <p>colors</p>
             <AddColorForm />
             <ColorList />
         </>

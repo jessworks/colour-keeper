@@ -3,3 +3,6 @@
 @use './components/header.scss';
 @use './components/navigation.scss';
 @use './pages/colors.scss';
+@use './breakpoints';
+@use './mixins';
+@use './components/colors/addcolor.scss';

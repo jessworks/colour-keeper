@@ -1,0 +1,29 @@
+@import './breakpoints';
+@import './variables';
+
+
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: #{$mobile}) {
+      @content;
+    }
+  } @else if $breakpoint == tablet {
+    @media (min-width: #{$mobile + 1}) and (max-width: #{$tablet}) {
+      @content;
+    }
+  } @else if $breakpoint == desktop {
+    @media (min-width: #{$tablet + 1}) {
+      @content;
+    }
+  }
+}
+
+
+// forms
+@mixin form-input {
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  padding: 10px;
+  font-size: 16px;
+  outline: none;
+}

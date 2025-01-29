@@ -6,7 +6,6 @@ import { Logout } from '../components/authentication/Logout';
 export const UserCredentials = () => {
     return (
         <>
-            <p>login</p>
             <Register />
             <Login />
             <Logout />
