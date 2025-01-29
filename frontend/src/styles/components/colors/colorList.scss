@@ -1,0 +1,17 @@
+@import '../../globals';
+@import '../../variables';
+@import '../../mixins';
+
+
+.color-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    width: 70%;         
+    min-width: 250px;
+    max-width: 500px;
+    margin: 0 auto;
+}

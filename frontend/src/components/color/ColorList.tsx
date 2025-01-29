@@ -74,7 +74,7 @@ export const ColorList = () => {
       {colors.length === 0 ? (
         <p>No colors found.</p>
       ) : (
-        <ul>
+        <ul className="color-list">
           {colors.map((color) => (
             <li key={color.id}>
               <img src={color.imageUrl || defaultColorImg} alt={color.colorName} style={{ width: '200px', height: '75px' }} />

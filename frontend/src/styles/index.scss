@@ -1,10 +1,14 @@
+@use './breakpoints';
 @use './globals';
+@use './mixins';
 @use './variables';
+
+@use './components/colors/addcolor.scss';
+@use './components/colors/colorList.scss';
+
 @use './components/header.scss';
 @use './components/navigation.scss';
+
 @use './pages/colors.scss';
 @use './pages/home.scss';
 @use './pages/login.scss';
-@use './breakpoints';
-@use './mixins';
-@use './components/colors/addcolor.scss';
