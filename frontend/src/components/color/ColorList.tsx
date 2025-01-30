@@ -77,29 +77,32 @@ export const ColorList = () => {
         <ul className="color-list">
           {colors.map((color) => (
             <li key={color.id}>
-              <img src={color.imageUrl || defaultColorImg} alt={color.colorName} style={{ width: '200px', height: '75px' }} />
+              <img
+              src={color.imageUrl || defaultColorImg}
+              alt={color.colorName}
+              style={{ width: '200px', height: '75px' }}
+              />
               <p>Colour Name: {color.colorName}</p>
               <p>Medium: {color.colorMedium}</p>
               {color.manufacturer && <p>Manufacturer: {color.manufacturer}</p>}
               {color.colorFamily && (<p>Colour Family: {color.colorFamily}</p>)}
               {color.tags && (<p>Tags: {color.tags}</p>)}
               {color.quantity && color.quantity > 0 && <p>Quantity: {color.quantity}</p>}
+
               <button onClick={() => handleEdit(color)}>Edit</button>
+
+              {/* Render the EditColorForm when a color is being edited */}
+              {editingColor && (
+                <EditColorForm
+                  color={editingColor}
+                  onSave={handleSave}
+                  onCancel={handleCancel}
+                />
+              )}
             </li>
           ))}
         </ul>
       )}
-
-
-      {/* Render the EditColorForm when a color is being edited */}
-      {editingColor && (
-        <EditColorForm
-          color={editingColor}
-          onSave={handleSave}
-          onCancel={handleCancel}
-        />
-      )}
-
     </div>
   );
 };
