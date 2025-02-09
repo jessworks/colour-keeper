@@ -5,6 +5,7 @@ import { useLoggedInUser } from '../../hooks/useLoggedInUser';
 import { EditColorForm } from './EditColorForm';
 import  defaultColorImg from '../../assets/color-img-default.jpg';
 
+import { handleDeleteColor } from './deleteColor';
 
 
 export const ColorList = () => {
@@ -62,9 +63,48 @@ export const ColorList = () => {
     setEditingColor(null); // Close the edit form without saving
   };
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+ 
+/*
+  const handleDelete = async (colorId: string) => {
+    if (!user?.id) {
+      console.error("User not logged in.");
+      return;
+    }
+
+    const isDeleted = await handleDeleteColor(colorId, user.id);
+
+    if (isDeleted) {
+      // Update the state by removing the deleted color
+      setColors((prevColors) => prevColors.filter((color) => color.id !== colorId));
+    } else {
+      console.error("Failed to delete color.");
+    }
+  };
+  */
+
+  const handleDelete = async (colorId: string) => {
+    if (!user?.id) {
+      console.error("User not logged in.");
+      return;
+    }
+
+    // Ask for confirmation before deleting
+    const confirmDelete = window.confirm("Are you sure you want to delete this color?");
+    
+    if (confirmDelete) {
+      const isDeleted = await handleDeleteColor(colorId, user.id);
+
+      if (isDeleted) {
+        // Update the state by removing the deleted color
+        setColors((prevColors) => prevColors.filter((color) => color.id !== colorId));
+      } else {
+        console.error("Failed to delete color.");
+      }
+    } else {
+      console.log("Deletion canceled.");
+    }
+  };
+  
 
 
   return (
@@ -90,6 +130,7 @@ export const ColorList = () => {
               {color.quantity && color.quantity > 0 && <p>Quantity: {color.quantity}</p>}
 
               <button onClick={() => handleEdit(color)}>Edit</button>
+              <button onClick={() => handleDelete(color.id)}>Delete</button>
 
               {/* Render the EditColorForm when a color is being edited */}
               {editingColor && (

@@ -171,3 +171,38 @@ export const editColor = async (id: string, updatedData: Partial<IColor>, userId
     throw error;
   }
 };
+
+
+export const deleteColor = async (id: string, userId: string): Promise<void> => {
+  try {
+    // Check if the color belongs to the user
+    const { data: color, error: fetchError } = await supabase
+      .from('colors')
+      .select('user_id')
+      .eq('id', id) // 'id' refers to the color ID
+      .single();
+
+    if (fetchError) {
+      throw new Error('Error fetching color: ' + fetchError.message);
+    }
+
+    if (color?.user_id !== userId) {
+      throw new Error('You are not authorized to delete this color');
+    }
+
+    // Delete the color
+    const { error: deleteError } = await supabase
+      .from('colors')
+      .delete()
+      .eq('id', id); // 'id' still refers to the color ID
+
+    if (deleteError) {
+      throw new Error('Failed to delete color: ' + deleteError.message);
+    }
+
+    console.log('Color deleted successfully');
+  } catch (error) {
+    console.error('Error deleting color:', error);
+    throw error;
+  }
+};
