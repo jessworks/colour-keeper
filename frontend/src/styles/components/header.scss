@@ -2,11 +2,20 @@
 
 
 header {
-    background-color: $secondary-color;
-    position: fixed;
-    height: 80px;
-    width: 100%;
-    top:0;
-    left: 0;
-    border-bottom: 2px solid $primary-color; 
+  background-color: $secondary-color;
+  position: fixed;
+  height: 80px;
+  width: 100%;
+  top:0;
+  left: 0;
+  border-bottom: 2px solid $primary-color;
+  z-index: 10;
+  transition: transform 0.4s ease-in-out;
+  &.hidden {
+    transform: translateY(-100%);
   }
+
+  &.visible {
+    transform: translateY(0);
+  }
+}
