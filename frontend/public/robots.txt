@@ -2,3 +2,5 @@ User-agent: *
 Disallow: /private/
 Allow: /public/
 Sitemap: http://localhost:5173/sitemap.xml
+
+# https://yourwebsite.com/robots.txt at deploy

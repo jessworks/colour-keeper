@@ -3,15 +3,14 @@ import { fetchUserColors } from '../../services/supabaseClient';
 import { IColor } from '../../models/IColor';
 import { useLoggedInUser } from '../../hooks/useLoggedInUser';
 import { EditColorForm } from './EditColorForm';
-import  defaultColorImg from '../../assets/color-img-default.jpg';
-
+import  defaultImgColor from '../../assets/color-img-default.jpg';
 import { handleDeleteColor } from './deleteColor';
 
 
 export const ColorList = () => {
   const [colors, setColors] = useState<IColor[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [editingColor, setEditingColor] = useState<IColor | null>(null); // Track color being edited
+  const [editingColor, setEditingColor] = useState<IColor | null>(null);
   const { user } = useLoggedInUser(); // Get the logged-in user info
 
   useEffect(() => {
@@ -63,32 +62,12 @@ export const ColorList = () => {
     setEditingColor(null); // Close the edit form without saving
   };
 
- 
-/*
   const handleDelete = async (colorId: string) => {
     if (!user?.id) {
       console.error("User not logged in.");
       return;
     }
 
-    const isDeleted = await handleDeleteColor(colorId, user.id);
-
-    if (isDeleted) {
-      // Update the state by removing the deleted color
-      setColors((prevColors) => prevColors.filter((color) => color.id !== colorId));
-    } else {
-      console.error("Failed to delete color.");
-    }
-  };
-  */
-
-  const handleDelete = async (colorId: string) => {
-    if (!user?.id) {
-      console.error("User not logged in.");
-      return;
-    }
-
-    // Ask for confirmation before deleting
     const confirmDelete = window.confirm("Are you sure you want to delete this color?");
     
     if (confirmDelete) {
@@ -118,9 +97,10 @@ export const ColorList = () => {
           {colors.map((color) => (
             <li key={color.id}>
               <img
-              src={color.imageUrl || defaultColorImg}
+              className="img-color"
+              src={color.imageUrl || defaultImgColor}
               alt={color.colorName}
-              style={{ width: '200px', height: '75px' }}
+              style={{ width: "200px", height: "75px" }}
               />
               <p>Colour Name: {color.colorName}</p>
               <p>Medium: {color.colorMedium}</p>

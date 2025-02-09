@@ -15,4 +15,11 @@
     min-width: 250px;
     max-width: 500px;
     margin: 0 auto;
+
+    .img-color {
+        width: 200px;
+        height: 75px;
+        object-fit: cover;
+        object-position: center;
+    }
 }
