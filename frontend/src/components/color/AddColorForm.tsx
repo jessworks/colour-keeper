@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { supabase, uploadImage, addColor } from '../../services/supabaseClient';
 import { IColor } from '../../models/IColor';
+import { useLoggedInUser } from '../../hooks/useLoggedInUser';
 
 
 export const AddColorForm = () => {
+  const { user } = useLoggedInUser(); // Get the logged-in user info
   const [formData, setFormData] = useState<Omit<IColor, 'id'>>({
     imageUrl: '',
     colorName: '',
@@ -94,6 +96,10 @@ export const AddColorForm = () => {
       alert('Failed to add color. Please try again.');
     }
   };
+
+  if (!user) {
+    return null; // Do not render the "Add Color" button if the user is not logged in
+  }
 
   return (
     <div>
