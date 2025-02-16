@@ -3,8 +3,9 @@
 @use './mixins';
 @use './variables';
 
-@use './components/colors/addcolor.scss';
+@use './components/colors/addColorForm.scss';
 @use './components/colors/colorList.scss';
+@use './components/colors/editColorForm.scss';
 
 @use './components/header.scss';
 @use './components/navigation.scss';

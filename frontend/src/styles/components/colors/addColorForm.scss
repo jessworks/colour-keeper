@@ -1,4 +1,5 @@
 @import '../../mixins';
+@import '../../variables';
 
 
 //det funkar, bygg på
@@ -6,5 +7,9 @@ form {
     input {
         @include form;
     }
+}
+
+.add-color-form {
+    background-color: $accent-primary-color;
 }
     

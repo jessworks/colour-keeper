@@ -1,0 +1,13 @@
+@import '../../mixins';
+@import '../../variables';
+
+
+form {
+    input {
+        @include form;
+    }
+}
+
+.edit-color-form {
+    background-color: $accent-secondary-color;
+}

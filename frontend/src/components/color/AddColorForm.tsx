@@ -109,7 +109,7 @@ export const AddColorForm = () => {
 
       {isFormVisible && (
         
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className='add-color-form'>
           <label htmlFor="imageUrl">Upload Image of Color</label>
           <input
             type="file"

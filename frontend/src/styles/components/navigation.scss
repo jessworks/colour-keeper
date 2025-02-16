@@ -1,6 +1,9 @@
 @import '../variables';
 @import '../mixins';
 
+
+// need to catch .navbar with visible/hidden
+
 .navbar {
   display: flex;
   align-items: center;
@@ -53,10 +56,11 @@
     gap: 1rem;
     padding: 0;
     position: absolute;
-    top: 60px; // adjusted based on navbar height
-    left: 0;
-    width: 100%;
-    background-color: $accent-secondary-color; // background menu items
+    top: 65px;
+    //left: 0;
+    right: 0;
+    width: 100px;
+    background-color: $accent-tertiary-color;
     padding: 1rem;
 
     li {
@@ -67,7 +71,7 @@
         // not when hovering, but when clicked --> why?
         &:hover {
           color: $primary-color; // hover effect menu items
-          border-bottom: 2px solid $tertiary-color;
+          border-bottom: 2px solid $primary-color;
         }
       }
     }
