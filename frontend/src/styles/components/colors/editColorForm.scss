@@ -8,6 +8,9 @@ form {
     }
 }
 
-.edit-color-form {
+
+.edit-color-form-container {
+    @include form-container;
     background-color: $accent-secondary-color;
+    margin: 0 30px 75px 30px;
 }

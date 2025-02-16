@@ -19,6 +19,14 @@
 }
 
 
+@mixin form-container { //mixins
+  display: flex;
+  justify-content: center;
+  border-radius: 3%;
+  margin: 0 25px 25px 25px;
+}
+
+
 @mixin form {
   display: flex;
   flex-direction: column;
@@ -27,7 +35,7 @@
   width: 70%;         
   min-width: 250px;
   max-width: 500px;
-  margin: 0 auto; 
+  margin: 0 auto;
   
   label { // jobba vidare med .form-group för 1 x label & input
     //text-align: center;         // Centers the label text

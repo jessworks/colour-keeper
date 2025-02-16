@@ -51,74 +51,76 @@ export const EditColorForm = ({ color, onSave, onCancel }: EditColorFormProps) =
 
 
   return (
-    <form onSubmit={handleSubmit} className='edit-color-form'>
-      <h3>Edit Color</h3>
+    <div className="edit-color-form-container">
+      <form onSubmit={handleSubmit} className='edit-color-form'>
+        <h3>Edit Color</h3>
 
-       {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
 
-      <label htmlFor="colorName">Color Name*</label>
-      <input
-        type="text"
-        id="colorName"
-        name="colorName"
-        value={updatedColor.colorName}
-        onChange={handleInputChange}
-        required
-      />
+        <label htmlFor="colorName">Color Name*</label>
+        <input
+          type="text"
+          id="colorName"
+          name="colorName"
+          value={updatedColor.colorName}
+          onChange={handleInputChange}
+          required
+        />
 
-      <label htmlFor="colorMedium">Medium*</label>
-      <input
-        type="text"
-        id="colorMedium"
-        name="colorMedium"
-        value={updatedColor.colorMedium}
-        onChange={handleInputChange}
-        required
-      />
+        <label htmlFor="colorMedium">Medium*</label>
+        <input
+          type="text"
+          id="colorMedium"
+          name="colorMedium"
+          value={updatedColor.colorMedium}
+          onChange={handleInputChange}
+          required
+        />
 
-      <label htmlFor="manufacturer">Manufacturer</label>
-      <input
-        type="text"
-        id="manufacturer"
-        name="manufacturer"
-        value={updatedColor.manufacturer || ''}
-        onChange={handleInputChange}
-      />
+        <label htmlFor="manufacturer">Manufacturer</label>
+        <input
+          type="text"
+          id="manufacturer"
+          name="manufacturer"
+          value={updatedColor.manufacturer || ''}
+          onChange={handleInputChange}
+        />
 
-      <label htmlFor="colorFamily">Color Family</label>
-      <input
-        type="text"
-        id="colorFamily"
-        name="colorFamily"
-        value={updatedColor.colorFamily || ''}
-        onChange={handleInputChange}
-      />
+        <label htmlFor="colorFamily">Color Family</label>
+        <input
+          type="text"
+          id="colorFamily"
+          name="colorFamily"
+          value={updatedColor.colorFamily || ''}
+          onChange={handleInputChange}
+        />
 
-      <label htmlFor="tags">Tags (ex: cold, opaque)</label>
-      <input
-        type="text"
-        id="tags"
-        name="tags"
-        value={(updatedColor.tags || []).join(', ')}
-        onChange={(e) =>
-          setUpdatedColor((prev) => ({
-            ...prev,
-            tags: e.target.value.split(',').map((tag) => tag.trim()),
-          }))
-        }
-      />
+        <label htmlFor="tags">Tags (ex: cold, opaque)</label>
+        <input
+          type="text"
+          id="tags"
+          name="tags"
+          value={(updatedColor.tags || []).join(', ')}
+          onChange={(e) =>
+            setUpdatedColor((prev) => ({
+              ...prev,
+              tags: e.target.value.split(',').map((tag) => tag.trim()),
+            }))
+          }
+        />
 
-      <label htmlFor="quantity">Quantity</label>
-      <input
-        type="number"
-        id="quantity"
-        name="quantity"
-        value={updatedColor.quantity || 0}
-        onChange={handleInputChange}
-      />
+        <label htmlFor="quantity">Quantity</label>
+        <input
+          type="number"
+          id="quantity"
+          name="quantity"
+          value={updatedColor.quantity || 0}
+          onChange={handleInputChange}
+        />
 
-      <button type="submit">Save</button>
-      <button type="button" onClick={onCancel}>Cancel</button>
-    </form>
+        <button type="submit">Save</button>
+        <button type="button" onClick={onCancel}>Cancel</button>
+      </form>
+    </div>
   );
 };

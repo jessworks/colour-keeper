@@ -8,23 +8,23 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 1rem;
+  padding: 0 16px;
   background-color: $secondary-color; // background behind burger 
   color: $white;
 
   .burger-menu {
+    position:absolute;
     display: flex;
     flex-direction: column;
-    gap: 4px;
     background: none;
     border: none;
-    cursor: pointer;
-    position: absolute;
-    right: 0.6rem; // burger to the right
+    margin: 0;
+    gap: 4px;
+    top: 55%;
     z-index: 20; // burger is above nav when active
     transition: transform 0.3s ease-in-out;
-    top: 55%;
-
+    cursor: pointer;
+    
     span {
       display: block;
       width: 25px;
@@ -53,15 +53,13 @@
     list-style: none;
     display: none; // hidden by default
     flex-direction: column;
-    gap: 1rem;
-    padding: 0;
+    gap: 16px;
     position: absolute;
     top: 65px;
-    //left: 0;
-    right: 0;
+    left: 0;
     width: 100px;
     background-color: $accent-tertiary-color;
-    padding: 1rem;
+    padding: 16px;
 
     li {
       a {
@@ -92,7 +90,7 @@
     .nav {
       display: flex; // menu bar on larger screens
       flex-direction: row;
-      gap: 2rem;
+      gap: 32px;
 
       li {
         a {

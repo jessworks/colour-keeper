@@ -2,14 +2,15 @@
 @import '../../variables';
 
 
-//det funkar, bygg på
 form {
     input {
         @include form;
     }
 }
 
-.add-color-form {
+
+.add-color-form-container {
+    @include form-container;
     background-color: $accent-primary-color;
+    padding-top: 30px;
 }
-    

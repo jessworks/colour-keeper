@@ -109,72 +109,74 @@ export const AddColorForm = () => {
 
       {isFormVisible && (
         
-        <form onSubmit={handleSubmit} className='add-color-form'>
-          <label htmlFor="imageUrl">Upload Image of Color</label>
-          <input
-            type="file"
-            id="imageUrl"
-            onChange={handleFileChange}
-          />
+        <div className='add-color-form-container'>
+          <form onSubmit={handleSubmit} className='add-color-form'>
+            <label htmlFor="imageUrl">Upload Image of Color</label>
+            <input
+              type="file"
+              id="imageUrl"
+              onChange={handleFileChange}
+            />
 
-          <label htmlFor="colorName">Colour Name*</label>
-          <input
-            type="text"
-            id="colorName"
-            name="colorName"
-            value={formData.colorName}
-            onChange={handleChange}
-            required
-          />
+            <label htmlFor="colorName">Colour Name*</label>
+            <input
+              type="text"
+              id="colorName"
+              name="colorName"
+              value={formData.colorName}
+              onChange={handleChange}
+              required
+            />
 
-          <label htmlFor="colorMedium">Medium*</label>
-          <input
-            type="text"
-            id="colorMedium"
-            name="colorMedium"
-            value={formData.colorMedium}
-            onChange={handleChange}
-            required
-          />
+            <label htmlFor="colorMedium">Medium*</label>
+            <input
+              type="text"
+              id="colorMedium"
+              name="colorMedium"
+              value={formData.colorMedium}
+              onChange={handleChange}
+              required
+            />
 
-          <label htmlFor="manufacturer">Manufacturer</label>
-          <input
-            type="text"
-            id="manufacturer"
-            name="manufacturer"
-            value={formData.manufacturer}
-            onChange={handleChange}
-          />
+            <label htmlFor="manufacturer">Manufacturer</label>
+            <input
+              type="text"
+              id="manufacturer"
+              name="manufacturer"
+              value={formData.manufacturer}
+              onChange={handleChange}
+            />
 
-          <label htmlFor="colorFamily">Colour Family</label>
-          <input
-            type="text"
-            id="colorFamily"
-            name="colorFamily"
-            value={formData.colorFamily}
-            onChange={handleChange}
-          />
+            <label htmlFor="colorFamily">Colour Family</label>
+            <input
+              type="text"
+              id="colorFamily"
+              name="colorFamily"
+              value={formData.colorFamily}
+              onChange={handleChange}
+            />
 
-          <label htmlFor="tags">Tags (ex: cold, opaque)</label>
-          <input
-            type="text"
-            id="tags"
-            name="tags"
-            value={formData.tags.join(', ')} // Join tags with commas to display them in the input
-            onChange={handleChange}
-          />
+            <label htmlFor="tags">Tags (ex: cold, opaque)</label>
+            <input
+              type="text"
+              id="tags"
+              name="tags"
+              value={formData.tags.join(', ')} // Join tags with commas to display them in the input
+              onChange={handleChange}
+            />
 
-          <label htmlFor="quantity">Quantity</label>
-          <input
-            type="number"
-            id="quantity"
-            name="quantity"
-            value={formData.quantity}
-            onChange={handleChange}
-          />
+            <label htmlFor="quantity">Quantity</label>
+            <input
+              type="number"
+              id="quantity"
+              name="quantity"
+              value={formData.quantity}
+              onChange={handleChange}
+            />
 
-          <button type="submit">Add Color</button>
-        </form>
+            <button type="submit">Add Color</button>
+          </form>
+        </div>
       )}
     </div>
   );

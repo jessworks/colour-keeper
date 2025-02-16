@@ -9,7 +9,7 @@ export const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScroll = window.pageYOffset;
+      const currentScroll = window.pageYOffset; //alternative to pageYOffset
 
       if (currentScroll > lastScrollTop.current) {
         setIsVisible(false);
