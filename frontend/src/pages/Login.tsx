@@ -1,8 +1,6 @@
 import { Register }  from '../components/authentication/Register';
 import { Login } from '../components/authentication/Login';
 import { Logout } from '../components/authentication/Logout';
-
-
 import { useLoggedInUser } from '../hooks/useLoggedInUser';
 
 export const UserCredentials = () => {

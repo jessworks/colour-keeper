@@ -20,11 +20,30 @@ main {
   width: 100%;
 }
 
-
 button {
-  font-size: 16px;
   height: 44px;
   min-width: 80px;
   border-radius: 5px;
   margin: 5px 15px 30px 0;
+  font-size: 16px;
+}
+
+.link-as-btn {
+  display: inline-flex; // Use flexbox for alignment
+  align-items: center;  // Vertically center content
+  justify-content: center; // Horizontally center content
+  height: 44px; // Fixed height
+  min-width: 80px;
+  padding: 0 20px; // Adjust padding for horizontal spacing only
+  border: solid 2px $primary-color;
+  border-radius: 5px;
+  text-decoration: none; // Removes underline
+  font-size: 16px;
+  background-color: $secondary-color;
+  color: $primary-color;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $accent-tertiary-color;
+  }
 }
