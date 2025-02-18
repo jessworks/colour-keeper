@@ -51,8 +51,8 @@ export const EditColorForm = ({ color, onSave, onCancel }: EditColorFormProps) =
 
 
   return (
-    <div className="edit-color-form-container">
-      <form onSubmit={handleSubmit} className='edit-color-form'>
+    <div className="form-container edit-color-form-container">
+      <form onSubmit={handleSubmit} className="edit-color-form">
         <h3>Edit Color</h3>
 
         {error && <p style={{ color: 'red' }}>{error}</p>}

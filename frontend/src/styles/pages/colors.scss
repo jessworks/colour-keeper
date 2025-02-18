@@ -1,0 +1,66 @@
+@import '../variables';
+
+
+.color-container {
+  padding: 20px;
+  transition: background-color 0.3s ease-in-out;
+  
+  &.image-only {
+    background-color: $grey-18-percent;
+  }
+
+  .color-control {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 20px;
+  }
+
+  .switch {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    }
+      
+  .switch input {
+    display: none;
+    }
+      
+  .slider {
+    position: relative;
+    width: 50px;
+    height: 24px;
+    background: $secondary-color;
+    border: 2px solid $primary-color;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.6s;
+    }
+      
+  .slider::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: $primary-color;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s;
+  }
+      
+  input:checked + .slider {
+    background: $tertiary-color;
+  }
+      
+  input:checked + .slider::before {
+    transform: translateX(26px);
+  }
+      
+  .toggle-label {
+    font-size: 16px;
+  }
+}     
+  

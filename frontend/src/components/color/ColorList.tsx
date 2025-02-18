@@ -4,13 +4,16 @@ import { IColor } from '../../models/IColor';
 import { useLoggedInUser } from '../../hooks/useLoggedInUser';
 import { EditColorForm } from './EditColorForm';
 import  defaultImgColor from '../../assets/color-img-default.jpg';
-import { handleDeleteColor } from './deleteColor';
+import { handleDeleteColor } from './DeleteColor';
+import '../../styles/pages/colors.scss';
+import { AddColorForm } from './AddColorForm';
 
 
 export const ColorList = () => {
   const [colors, setColors] = useState<IColor[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [editingColor, setEditingColor] = useState<IColor | null>(null);
+  const [imageOnly, setImageOnly] = useState(false);
   const { user } = useLoggedInUser(); // Get the logged-in user info
 
   useEffect(() => {
@@ -85,10 +88,17 @@ export const ColorList = () => {
   };
   
 
-
   return (
-    <div>
-      <h2>Your Colours</h2>
+    <div className={`color-container ${imageOnly ? 'image-only' : ''}`}>
+      <div className="color-control">
+        <label className="switch">
+          <input type="checkbox" checked={imageOnly} onChange={() => setImageOnly(!imageOnly)} />
+          <span className="toggle-label">{imageOnly ? "Full List" : "Colour Chart"}</span>
+          <span className="slider"></span>
+        </label>
+
+        <AddColorForm />
+      </div>
       
       {colors.length === 0 ? (
         <p>No colors found.</p>
@@ -101,27 +111,31 @@ export const ColorList = () => {
                 className="img-color"
                 src={color.imageUrl || defaultImgColor}
                 alt={color.colorName}
-                style={{ width: "300px", height: "100px" }}
+                style={{ width: "250px", height: "100px" }}
                 />
-                <div className="color-list-li-text">
-                  <p>Colour Name: {color.colorName}</p>
-                  <p>Medium: {color.colorMedium}</p>
-                  {color.manufacturer && <p>Manufacturer: {color.manufacturer}</p>}
-                  {color.colorFamily && (<p>Colour Family: {color.colorFamily}</p>)}
-                  {color.tags && (<p>Tags: {color.tags}</p>)}
-                  {color.quantity && color.quantity > 0 && <p>Quantity: {color.quantity}</p>}
-                </div>
-                
-                <button onClick={() => handleEdit(color)}>Edit</button>
-                <button onClick={() => handleDelete(color.id)}>Delete</button>
 
-                {/* Render the EditColorForm when a color is being edited */}
-                {editingColor && (
-                  <EditColorForm
-                    color={editingColor}
-                    onSave={handleSave}
-                    onCancel={handleCancel}
-                  />
+                {!imageOnly && (
+                  <>
+                    <div className="color-list-li-text">
+                      <p>Colour Name: {color.colorName}</p>
+                      <p>Medium: {color.colorMedium}</p>
+                      {color.manufacturer && <p>Manufacturer: {color.manufacturer}</p>}
+                      {color.colorFamily && (<p>Colour Family: {color.colorFamily}</p>)}
+                      {color.tags && (<p>Tags: {color.tags}</p>)}
+                      {color.quantity && color.quantity > 0 && <p>Quantity: {color.quantity}</p>}
+                    </div>
+
+                    <button onClick={() => handleEdit(color)}>Edit</button>
+                    <button onClick={() => handleDelete(color.id)}>Delete</button>
+                
+                    {editingColor?.id === color.id && (
+                      <EditColorForm
+                        color={editingColor}
+                        onSave={handleSave}
+                        onCancel={handleCancel}
+                      />
+                    )}
+                  </>
                 )}
               </li>
             ))}

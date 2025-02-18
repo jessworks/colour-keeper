@@ -49,7 +49,8 @@
     }
   }
 
-  .nav {
+  
+  .nav {  // behöver transition för navbar
     list-style: none;
     display: none; // hidden by default
     flex-direction: column;
