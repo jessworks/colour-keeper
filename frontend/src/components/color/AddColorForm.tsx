@@ -111,7 +111,7 @@ export const AddColorForm = () => {
         
         <div className="form-container add-color-form-container">
           <form onSubmit={handleSubmit} className="add-color-form">
-            <label htmlFor="imageUrl">Upload Image of Color</label>
+            <label htmlFor="imageUrl">Upload Image</label>
             <input
               type="file"
               id="imageUrl"
