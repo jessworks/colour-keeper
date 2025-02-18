@@ -103,9 +103,11 @@ export const AddColorForm = () => {
 
   return (
     <div>
-      <button onClick={() => setFormVisible((prev) => !prev)}>
-        {isFormVisible ? 'Cancel' : 'Add Color'}
-      </button>
+      {!isFormVisible && (
+        <button onClick={() => setFormVisible(true)}>
+          Add Colour
+        </button>
+      )}
 
       {isFormVisible && (
         
@@ -174,7 +176,14 @@ export const AddColorForm = () => {
               onChange={handleChange}
             />
 
-            <button type="submit">Add Color</button>
+            <div className="button-container">
+              <button type="submit">Add Colour</button>
+              <button
+                type="button"
+                onClick={() => setFormVisible(false)}>
+                Cancel
+              </button>
+            </div>
           </form>
         </div>
       )}

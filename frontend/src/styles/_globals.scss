@@ -29,15 +29,16 @@ button {
 }
 
 .link-as-btn {
-  display: inline-flex; // Use flexbox for alignment
-  align-items: center;  // Vertically center content
-  justify-content: center; // Horizontally center content
-  height: 44px; // Fixed height
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
   min-width: 80px;
-  padding: 0 20px; // Adjust padding for horizontal spacing only
+  padding: 0 20px;
   border: solid 2px $primary-color;
   border-radius: 5px;
-  text-decoration: none; // Removes underline
+  margin-top: 50px;
+  text-decoration: none;
   font-size: 16px;
   background-color: $secondary-color;
   color: $primary-color;
