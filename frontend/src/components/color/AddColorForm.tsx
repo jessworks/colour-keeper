@@ -177,7 +177,7 @@ export const AddColorForm = () => {
             />
 
             <div className="button-container">
-              <button type="submit">Add Colour</button>
+              <button type="submit">Save</button>
               <button
                 type="button"
                 onClick={() => setFormVisible(false)}>
