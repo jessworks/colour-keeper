@@ -90,14 +90,14 @@ export const ColorList = () => {
 
   return (
     <div className={`color-container ${imageOnly ? 'image-only' : ''}`}>
+      <AddColorForm />
+      
       <div className="color-control">
         <label className="switch">
           <input type="checkbox" checked={imageOnly} onChange={() => setImageOnly(!imageOnly)} />
           <span className="toggle-label">{imageOnly ? "Full List" : "Colour Chart"}</span>
           <span className="slider"></span>
         </label>
-
-        <AddColorForm />
       </div>
       
       {colors.length === 0 ? (

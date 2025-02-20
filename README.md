@@ -26,14 +26,14 @@ npm run dev
 npm install @supabase/supabase-js
 
 ## Flow Chart and Database Schema  
-![Flow Chart for Colour Keeper](frontend/assets/images/ck-flow-chart.png)
+![Flow Chart for Colour Keeper](frontend/assets/images/ck-flow-chart.jpg)
 
 ![Database Schema for Supabase](frontend/assets/images/ck-schema-supabase.png)
 
 
 ## Screenshots  
 
-![Home](frontend/assets/images/ck-home.png.png)  
+![Home](frontend/assets/images/ck-home.png)  
 
 ![Login](frontend/assets/images/ck-login.png)  
 
@@ -41,4 +41,4 @@ npm install @supabase/supabase-js
 
 ![Colours, colour chart](frontend/assets/images/ck-color-chart.png)  
 
-![Colours, add colour](frontend/assets/images/screenshotForReadme.png)  
+![Colours, add colour](frontend/assets/images/ck-colours-add-colour.png)  
