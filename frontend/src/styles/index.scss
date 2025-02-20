@@ -13,3 +13,10 @@
 @use './pages/colors.scss';
 @use './pages/home.scss';
 @use './pages/login.scss';
+
+:focus-visible {
+    outline: 3px solid #242234; //varför funkar inte _variables.scss?
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  
