@@ -13,7 +13,7 @@ The app is fully functional. New features, such as filtering, will be added with
 
 ## stack  
 html/css/sass/vite/react/typescript/supabase  
-![CSS](CSS.svg)
+![CSS]('./assets/CSS.svg')
 
 ## how to install and run project  
 front and back
