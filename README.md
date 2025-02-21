@@ -42,3 +42,5 @@ npm install @supabase/supabase-js
 ![Colours, colour chart](frontend/assets/images/ck-color-chart.png)  
 
 ![Colours, add colour](frontend/assets/images/ck-colours-add-colour.png)  
+
+![Colours, edit colour](frontend/assets/images/ck-edit-color.png)  
