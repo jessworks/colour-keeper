@@ -2,7 +2,7 @@
 @import '../mixins';
 
 
-// need to catch .navbar with visible/hidden
+// !! adjust styling to keep .navbar above header border  !!
 
 .navbar {
   display: flex;
@@ -50,7 +50,7 @@
   }
 
   
-  .nav {  // behöver transition för navbar
+  .nav { 
     list-style: none;
     display: none; // hidden by default
     flex-direction: column;
@@ -67,7 +67,6 @@
         text-decoration: none;
         color: $primary-color;
 
-        // not when hovering, but when clicked --> why?
         &:hover {
           color: $primary-color; // hover effect menu items
           border-bottom: 2px solid $primary-color;
@@ -83,6 +82,7 @@
     }
   }
 
+  /*
   @include respond-to(desktop) {
     .burger-menu {
       display: none; // hide burger version on larger screens
@@ -100,4 +100,5 @@
       }
     }
   }
+  */
 }

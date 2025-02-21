@@ -21,13 +21,30 @@
 
         .color-list-li {
             width: 100%;
+            margin: 25px 0 0 0;
         }
 
-        .img-color {
+        .color-list-li-img {
             width: 200px;
             height: 75px;
             object-fit: cover;
             object-position: center;
+        }
+    }
+    @include respond-to(desktop) {
+        .color-list-li {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            margin-top: 40px;
+
+            .color-list-li-img {
+                height: 300px;
+            }
+            .color-list-li-btns {
+                display: flex;
+                flex-direction: column;
+            }
         }
     }
 }

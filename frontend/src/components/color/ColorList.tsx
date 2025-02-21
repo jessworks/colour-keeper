@@ -95,7 +95,7 @@ export const ColorList = () => {
       <div className="color-control">
         <label className="switch">
           <input type="checkbox" checked={imageOnly} onChange={() => setImageOnly(!imageOnly)} />
-          <span className="toggle-label">{imageOnly ? "Full List" : "Colour Chart"}</span>
+          <span className="toggle-label">{imageOnly ? "Detailed List" : "Colour Chart"}</span>
           <span className="slider"></span>
         </label>
       </div>
@@ -108,7 +108,7 @@ export const ColorList = () => {
             {colors.map((color) => (
               <li key={color.id} className="color-list-li">
                 <img
-                className="img-color"
+                className="color-list-li-img"
                 src={color.imageUrl || defaultImgColor}
                 alt={color.colorName}
                 style={{ width: "250px", height: "100px" }}
@@ -116,18 +116,21 @@ export const ColorList = () => {
 
                 {!imageOnly && (
                   <>
-                    <div className="color-list-li-text">
-                      <p>Colour Name: {color.colorName}</p>
-                      <p>Medium: {color.colorMedium}</p>
-                      {color.manufacturer && <p>Manufacturer: {color.manufacturer}</p>}
-                      {color.colorFamily && (<p>Colour Family: {color.colorFamily}</p>)}
-                      {color.tags && (<p>Tags: {color.tags}</p>)}
-                      {color.quantity && color.quantity > 0 && <p>Quantity: {color.quantity}</p>}
+                    <div className="color-list-li-text-and-btns">
+                      <div className="color-list-li-text">
+                        <p>Colour Name: {color.colorName}</p>
+                        <p>Medium: {color.colorMedium}</p>
+                        {color.manufacturer && <p>Manufacturer: {color.manufacturer}</p>}
+                        {color.colorFamily && (<p>Colour Family: {color.colorFamily}</p>)}
+                        {color.tags && (<p>Tags: {color.tags}</p>)}
+                        {color.quantity && color.quantity > 0 && <p>Quantity: {color.quantity}</p>}
+                      </div>
                     </div>
 
-                    <button onClick={() => handleEdit(color)}>Edit</button>
-                    <button onClick={() => handleDelete(color.id)}>Delete</button>
-                
+                    <div className="color-list-li-btns">
+                      <button onClick={() => handleEdit(color)}>Edit</button>
+                      <button onClick={() => handleDelete(color.id)}>Delete</button>
+                    </div>
                     {editingColor?.id === color.id && (
                       <EditColorForm
                         color={editingColor}
