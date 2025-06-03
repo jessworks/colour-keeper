@@ -1,3 +1,5 @@
+vercel working copy
+
 # Colour Keeper
 Colour Keeper is my higher vocational degree project in frontend development at Medieinstitutet.  
   
